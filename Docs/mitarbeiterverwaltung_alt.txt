@@ -1,0 +1,329 @@
+# ANZEIGEN Abteilung 
+def showAllEntries(show_what):
+    # Verbindung mit Datenbank erstellen bzw. die Datenbank zuerst erstellen 
+    connection = sqlite3.connect("mitarbeiterverwaltung.db")
+    try:
+        cursor = connection.cursor()
+
+        if(show_what == "a"):
+            sql_statement = "SELECT * " \
+                                "FROM Abteilung;"
+            cursor.execute(sql_statement)
+            
+            for value in cursor:
+                print(str(value[0]) + ". " + str(value[1]))
+                
+        elif(show_what == "b"):
+            sql_statement = "SELECT * " \
+                                "FROM Bsv;"
+            cursor.execute(sql_statement)
+            
+            for value in cursor:
+                print(str(value[0]) + ". " + str(value[1]))
+                
+        elif(show_what == "w"):
+            sql_statement = "SELECT * " \
+                                "FROM Wohnort;"
+            cursor.execute(sql_statement)
+            
+            for value in cursor:
+                print(str(value[0]) + " " + str(value[1]))
+                
+        else:
+            sql_statement = "SELECT * " \
+                                "FROM Mitarbeiter;"
+            cursor.execute(sql_statement)
+            
+            for value in cursor:
+                print(str(value[0]) + ". " + str(value[1]) + ", " + str(value[2]))
+        
+        #connection.commit()
+    except Exception as e:
+        print("Es ist folgender Fehler aufgetreten: \n" + e.args[0])
+    finally:
+        connection.close()
+        
+    return ######################
+
+
+
+
+# Hauptfunktion des Programms
+def main():
+    
+    while True:
+        print(program_header)
+
+        print("Was genau möchten Sie tun?")
+        print("Sie haben folgende Möglichkeiten:" + "\n")
+
+        print("EINTRAGEN")
+        print("1.  Abteilung                        --> die  1 drücken  + ENTER")   
+        print("2.  Beschäftigungsverhältnis         --> die  2 drücken  + ENTER")
+        print("3.  Wohnort                          --> die  3 drücken  + ENTER")
+        print("4.  Mitarbeiter                      --> die  4 drücken  + ENTER")
+        print()
+
+        print("ÄNDERN")
+        print("5.  Abteilung                        --> die  5 drücken  + ENTER")
+        print("6.  Beschäftigungsverhältnis         --> die  6 drücken  + ENTER")
+        print("7.  Wohnort                          --> die  7 drücken  + ENTER")
+        print("8.  Mitarbeiter                      --> die  8 drücken  + ENTER")
+        print()
+
+        print("LÖSCHEN")
+        print("9.  Abteilung                        --> die  9 drücken  + ENTER")
+        print("10. Beschäftigungsverhältnis         --> die 10 drücken  + ENTER")
+        print("11. Wohnort                          --> die 11 drücken  + ENTER")
+        print("12. Mitarbeiter                      --> die 12 drücken  + ENTER")
+        print()
+
+        print()
+        print("13. ANZEIGEN der Einträge            --> die 13 drücken  + ENTER")
+        """
+        print("17. Mitarbeiter (einer Abteilung)    --> die 17 drücken  + ENTER")
+        print("18. Mitarbeiter (eines Bsvs)         --> die 18 drücken  + ENTER")
+        print("19. Mitarbeiter (eines Wohnortes)    --> die 19 drücken  + ENTER")
+        print("20. Telefonnummer (Mitarbeiter)      --> die 20 drücken  + ENTER")
+        print("21. Adresse (Mitarbeiter)            --> die 21 drücken  + ENTER")
+        print("22. Geburtsdatum (Mitarbeiter)       --> die 22 drücken  + ENTER")
+        """
+        print()
+        
+        decision = input("Ihr Wunsch: ")
+
+        if(decision == "1"):
+            print()
+            print("EINTRAGEN -> Abteilung")
+            print()
+            print("Im Moment gibt es die folgenden Abteilungen")
+            print()
+            showAllEntries("a")
+            print()
+            print("Welchen Abteilungsnamen möchten Sie einfügen?")
+            print()
+            name = input("Abteilungsname: ")
+            newEntryAbt(name)
+            
+        elif(decision == "2"):
+            print()
+            print("EINTRAGEN -> Beschäftigungsverhältnis")
+            print()
+            print("Im Moment gibt es die folgenden Beschäftigungsverhältnisse")
+            print()
+            showAllEntries("b")
+            print()
+            print("Welches Beschäftigungsverhältnis möchten Sie einfügen?")
+            print()
+            name = input("Beschäftigungsverhältnis: ")
+            newEntryBsv(name)
+
+        elif(decision == "3"):
+            print()
+            print("EINTRAGEN -> Wohnort")
+            print()
+            print("Im Moment gibt es die folgenden Wohnorte")
+            print()
+            showAllEntries("w")
+            print()
+            print("Welche Wohnorte möchten Sie einfügen?")
+            print()
+            plz = input("PLZ: ")
+            name = input("Ort: ")
+            newEntryOrt(plz, name)
+            
+        elif(decision == "4"):
+            print()
+            print("EINTRAGEN -> Mitarbeiter")
+            print()
+            print("Im Moment gibt es die folgenden Mitarbeiter")
+            print()
+            showAllEntries("m")
+            print()
+            print("Welchen Mitarbeiter möchten Sie einfügen?")
+            print()
+            first_name = input("Vorname: ")
+            last_name = input("Nachname: ")
+            birth_date = input("Geburtsdatum wie folgt --> YYYY-MM-DD --> z.B. 1978-09-24: ")
+            street_and_no = input("Straße und Hausnummer: ")
+            tel_no = input("Telefonnummer: ")
+            salary = input("Gehalt wie folgt --> NNNN oder NNNN.NN --> z.B. 2500 oder 2500.00: ")
+            st_class = input("Steuerklasse: ")
+            wohnort_ort_id = input("PLZ: ")
+            abteilung_abt_id = input("Abteilungs-ID: ")
+            bsv_bsv_id = input("Beschäftigungsverhältnis-ID: ")
+            newEntryMA(first_name, last_name, birth_date, street_and_no, tel_no, salary, st_class, wohnort_ort_id, abteilung_abt_id, bsv_bsv_id)
+
+        elif(decision == "5"):
+            print()
+            print("ÄNDERN -> Abteilung")
+            print()
+            print("Im Moment gibt es die folgenden Abteilungen")
+            print()
+            showAllEntries("a")
+            print()
+            print("Welche Abteilung möchten Sie ändern?")
+            print()
+            name_old = input("Abteilungsname: ")
+            name_new = input("Neuer Abteilungsname: ")
+            updateEntryAbt(name_old, name_new)
+
+        elif(decision == "6"):
+            print()
+            print("ÄNDERN -> Beschäftigungsverhältnis")
+            print()
+            print("Im Moment gibt es die folgenden Beschäftigungsverhältnisse")
+            print()
+            showAllEntries("b")
+            print()
+            print("Welches Beschäftigungsverhältnis möchten Sie ändern?")
+            print()
+            name_old = input("Name des Beschäftigungsverhältnisses: ")
+            name_new = input("Neuer Name des Beschäftigungsverhältnisses: ")
+            updateEntryBsv(name_old, name_new)
+
+        elif(decision == "7"):
+            print()
+            print("ÄNDERN -> Wohnort")
+            print()
+            print("Im Moment gibt es die folgenden Wohnorte")
+            print()
+            showAllEntries("w")
+            print()
+            print("Welchen Wohnort möchten Sie ändern?")
+            print()
+            plz = input("PLZ: ")
+            name_new = input("Neuer Ortsname: ")
+            updateEntryOrt(plz, name_new)
+
+        elif(decision == "8"):
+            print()
+            print("ÄNDERN -> Mitarbeiter")
+            print()
+            print("Im Moment gibt es die folgenden Mitarbeiter")
+            print()
+            showAllEntries("m")
+            print()
+            print("Welchen Mitarbeiter möchten Sie ändern?")
+            id_ma = input("Mitarbeiter-ID: ")
+            print()
+            print("Bitte tragen Sie die neuen Daten ein")
+            first_name = input("Vorname: ")
+            last_name = input("Nachname: ")
+            birth_date = input("Geburtsdatum wie folgt --> YYYY-MM-DD --> z.B. 1978-09-24: ")
+            street_and_no = input("Straße und Hausnummer: ")
+            tel_no = input("Telefonnummer: ")
+            salary = input("Gehalt wie folgt --> NNNN oder NNNN.NN --> z.B. 2500 oder 2500.00: ")
+            st_class = input("Steuerklasse: ")
+            wohnort_ort_id = input("PLZ: ")
+            abteilung_abt_id = input("Abteilungs-ID: ")
+            bsv_bsv_id = input("Beschäftigungsverhältnis-ID: ")
+            updateEntryMA(id_ma, first_name, last_name, birth_date, street_and_no, tel_no, salary, st_class, wohnort_ort_id, abteilung_abt_id, bsv_bsv_id)
+
+        elif(decision == "9"):
+            print()
+            print("LÖSCHEN -> Abteilung")
+            print()
+            print("Im Moment gibt es die folgenden Abteilungen")
+            print()
+            showAllEntries("a")
+            print()
+            print("Welche Abteilung möchten Sie löschen?")
+            print()
+            name = input("Abteilungsname: ")
+            delEntryAbt(name)
+
+        elif(decision == "10"):
+            print()
+            print("LÖSCHEN -> Beschäftigungsverhältnis")
+            print()
+            print("Im Moment gibt es die folgenden Beschäftigungsverhältnisse")
+            print()
+            showAllEntries("b")
+            print()
+            print("Welches Beschäftigungsverhältnis möchten Sie löschen?")
+            print()
+            name = input("Name des Beschäftigungsverhältnisses: ")
+            delEntryBsv(name)
+
+        elif(decision == "11"):
+            print()
+            print("LÖSCHEN -> Wohnort")
+            print()
+            print("Im Moment gibt es die folgenden Wohnorte")
+            print()
+            showAllEntries("w")
+            print()
+            print("Welchen Wohnort möchten Sie löschen?")
+            print()
+            plz = input("PLZ: ")
+            delEntryOrt(plz)
+
+        elif(decision == "12"):
+            print()
+            print("LÖSCHEN -> Mitarbeiter")
+            print()
+            print("Im Moment gibt es die folgenden Mitarbeiter")
+            print()
+            showAllEntries("m")
+            print()
+            print("Welchen Mitarbeiter möchten Sie löschen?")
+            print()
+            id_ma = input("Mitarbeiter-ID: ")
+            delEntryMA(id_ma)
+
+        elif(decision == "13"):
+            print()
+            print("Bitte geben Sie die folgenden Daten ein")
+            print("Welche Einträge möchten Sie angezeigt bekommen?")
+            print()
+            print("I.   Abteilungen                   --> a eingeben + ENTER")
+            print("II.  Beschäftigungsverhältnisse    --> b eingeben + ENTER")
+            print("III. Wohnorte                      --> w eingeben + ENTER")
+            print("IV.  Mitarbeiter                   --> m eingeben + ENTER")
+            print()
+
+            show_what = input()
+
+            if(show_what.lower() == "a"):
+                print()
+                print("ANZEIGEN -> Abteilungen")
+                showAllEntries(show_what.lower())
+
+            elif(show_what.lower() == "b"):
+                print()
+                print("ANZEIGEN -> Beschäftigungsverhältnisse")
+                showAllEntries(show_what.lower())
+
+            elif(show_what.lower() == "w"):
+                print()
+                print("ANZEIGEN -> Wohnorte")
+                showAllEntries(show_what.lower())
+
+            elif(show_what.lower() == "m"):
+                print()
+                print("ANZEIGEN -> Mitarbeiter")
+                showAllEntries(show_what.lower())
+
+            else:
+                print()
+                print("Das war keine gültige Eingabe!!!")
+                print("Bitte die folgende Fehlermeldung sorgfältig durchlesen!!!")
+                print(error_header)
+
+        else:
+            print()
+            print("Das war keine gültige Eingabe!!!")
+            print("Bitte die folgende Fehlermeldung sorgfältig durchlesen!!!")
+            print(error_header)
+
+
+        print()
+        exit_choice = input("Programm beenden? Dann bitte 'ja' eingeben + ENTER: ")
+        if (exit_choice.lower() == "ja"):
+            break
+
+
+# Programm starten
+main()
+
